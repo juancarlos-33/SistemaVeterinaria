@@ -1,0 +1,57 @@
+@model IEnumerable<SistemaVeterinaria.Models.Mascota>
+
+@{
+    ViewData["Title"] = "Mascotas";
+}
+
+<h2>Listado de Mascotas</h2>
+
+<form method="get" asp-action="Index" class="row g-3 mb-4 mt-2">
+    <div class="col-auto">
+        <input type="text" name="buscarTexto" class="form-control" placeholder="Buscar x nombre o dueño..." />
+    </div>
+    <div class="col-auto">
+        <select name="especieId" asp-items="ViewBag.Especies" class="form-select">
+            <option value="">-- Todas las especies --</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Filtrar</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
+    </div>
+</form>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Registrar Mascota</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Foto</th>
+            <th>Mascota</th>
+            <th>Propietario</th>
+            <th>Especie</th>
+            <th>Raza</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model) {
+            <tr>
+                <td>
+                    @if(!string.IsNullOrEmpty(m.RutaFoto)) {
+                        <img src="~/images/@m.RutaFoto" width="50" height="50" style="object-fit: cover; border-radius: 50%;" />
+                    } else {
+                        <span class="text-muted">Sin foto</span>
+                    }
+                </td>
+                <td>@m.Nombre</td>
+                <td>@m.Propietario?.Nombre @m.Propietario?.Apellido</td>
+                <td>@m.Raza?.Especie?.Nombre</td>
+                <td>@m.Raza?.Nombre</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-info">Editar</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
