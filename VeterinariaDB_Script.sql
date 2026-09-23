@@ -38,15 +38,12 @@ CREATE TABLE Mascotas (
 );
 GO
 
--- Insercion de datos iniciales (Catalogos)
 INSERT INTO Especies (Nombre) VALUES ('Canino'), ('Felino');
 
--- Razas para Canino (IdEspecie = 1)
 INSERT INTO Razas (IdEspecie, Nombre) VALUES (1, 'Labrador Retriever');
 INSERT INTO Razas (IdEspecie, Nombre) VALUES (1, 'Bulldog Frances');
 INSERT INTO Razas (IdEspecie, Nombre) VALUES (1, 'Pastor Aleman');
 
--- Razas para Felino (IdEspecie = 2)
 INSERT INTO Razas (IdEspecie, Nombre) VALUES (2, 'Siames');
 INSERT INTO Razas (IdEspecie, Nombre) VALUES (2, 'Persa');
 INSERT INTO Razas (IdEspecie, Nombre) VALUES (2, 'Maine Coon');
