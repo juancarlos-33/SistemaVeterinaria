@@ -14,20 +14,17 @@ namespace SistemaVeterinaria.Controllers
             _context = context;
         }
 
-        // GET: Propietarios
         public async Task<IActionResult> Index()
         {
             var propietarios = await _context.Propietarios.ToListAsync();
             return View(propietarios);
         }
 
-        // GET: Propietarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Propietarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nombre,Apellido,Telefono,Email,Direccion")] Propietario propietario)
@@ -41,7 +38,6 @@ namespace SistemaVeterinaria.Controllers
             return View(propietario);
         }
 
-        // GET: Propietarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -52,7 +48,6 @@ namespace SistemaVeterinaria.Controllers
             return View(propietario);
         }
 
-        // POST: Propietarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Telefono,Email,Direccion")] Propietario propietario)
@@ -76,7 +71,6 @@ namespace SistemaVeterinaria.Controllers
             return View(propietario);
         }
 
-        // GET: Propietarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -87,7 +81,6 @@ namespace SistemaVeterinaria.Controllers
             return View(propietario);
         }
 
-        // POST: Propietarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
