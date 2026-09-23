@@ -8,11 +8,11 @@ namespace SistemaVeterinaria.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(50)]
         public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El apellido es obligatorio")]
         [MaxLength(50)]
         public string Apellido { get; set; }
 
@@ -20,7 +20,7 @@ namespace SistemaVeterinaria.Models
         public string? Telefono { get; set; }
 
         [MaxLength(100)]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Pon un correo válido")]
         public string? Email { get; set; }
 
         [MaxLength(150)]

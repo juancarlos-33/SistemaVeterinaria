@@ -8,14 +8,14 @@ namespace SistemaVeterinaria.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Falta el nombre de la mascota")]
         [MaxLength(50)]
         public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Tienes que elegir un dueño")]
         public int IdPropietario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Tienes que elegir una raza")]
         public int IdRaza { get; set; }
 
         [DataType(DataType.Date)]
