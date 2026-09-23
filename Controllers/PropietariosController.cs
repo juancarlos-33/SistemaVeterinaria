@@ -7,7 +7,6 @@ namespace SistemaVeterinaria.Controllers
 {
     public class PropietariosController : Controller
     {
-        // 1. Inyección directa del DbContext (Requisito de la prueba: No usar Repositories)
         private readonly VeterinariaContext _context;
 
         public PropietariosController(VeterinariaContext context)
