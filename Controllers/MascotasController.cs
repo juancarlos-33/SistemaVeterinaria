@@ -92,5 +92,65 @@ namespace SistemaVeterinaria.Controllers
             ViewBag.Especies = new SelectList(_db.Especies, "Id", "Nombre", IdEspecie);
             return View(mascota);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var mascota = await _db.Mascotas.Include(m => m.Raza).FirstOrDefaultAsync(m => m.Id == id);
+            if (mascota == null) return NotFound();
+
+            ViewBag.Propietarios = new SelectList(_db.Propietarios, "Id", "Nombre", mascota.IdPropietario);
+            ViewBag.Especies = new SelectList(_db.Especies, "Id", "Nombre", mascota.Raza.IdEspecie);
+            ViewBag.Razas = new SelectList(_db.Razas.Where(r => r.IdEspecie == mascota.Raza.IdEspecie), "Id", "Nombre", mascota.IdRaza);
+            
+            return View(mascota);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Mascota mascota, IFormFile foto, int IdEspecie)
+        {
+            if (id != mascota.Id) return NotFound();
+
+            ModelState.Remove("Propietario");
+            ModelState.Remove("Raza");
+
+            if (ModelState.IsValid)
+            {
+                var mascotaBd = await _db.Mascotas.FindAsync(id);
+                if (mascotaBd == null) return NotFound();
+
+                mascotaBd.Nombre = mascota.Nombre;
+                mascotaBd.IdPropietario = mascota.IdPropietario;
+                mascotaBd.IdRaza = mascota.IdRaza;
+                mascotaBd.FechaNacimiento = mascota.FechaNacimiento;
+                mascotaBd.Peso = mascota.Peso;
+
+                if (foto != null && foto.Length > 0)
+                {
+                    var uploads = Path.Combine(_env.WebRootPath, "images");
+                    if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
+                    
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
+                    var filePath = Path.Combine(uploads, fileName);
+                    
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await foto.CopyToAsync(stream);
+                    }
+                    mascotaBd.RutaFoto = fileName;
+                }
+
+                _db.Update(mascotaBd);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Propietarios = new SelectList(_db.Propietarios, "Id", "Nombre", mascota.IdPropietario);
+            ViewBag.Especies = new SelectList(_db.Especies, "Id", "Nombre", IdEspecie);
+            ViewBag.Razas = new SelectList(_db.Razas.Where(r => r.IdEspecie == IdEspecie), "Id", "Nombre", mascota.IdRaza);
+            return View(mascota);
+        }
     }
 }

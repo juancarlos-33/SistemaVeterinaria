@@ -49,7 +49,7 @@
                 <td>@m.Raza?.Especie?.Nombre</td>
                 <td>@m.Raza?.Nombre</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-info">Editar</a> 
+                    <a asp-action="Edit" asp-route-id="@m.Id" class="btn btn-sm btn-info">Editar</a> 
                 </td>
             </tr>
         }
